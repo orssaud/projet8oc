@@ -11,80 +11,46 @@ $classComment = "active";
 	
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" id="new" href="#">New</a>
+    <a class="nav-link <?php if($p == 0){echo('active');} ?>" id="new" href="./index.php?action=allComments&amp;p=0">New</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link"  id="all" href="#">All</a>
+    <a class="nav-link <?php if($p == 1){echo('active');} ?>"  id="all" href="./index.php?action=allComments&amp;p=1">All</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="reported" href="#">Reported</a>
+    <a class="nav-link <?php if($p == 2){echo('active');} ?>" id="reported" href="./index.php?action=allComments&amp;p=2">Reported</a>
   </li>
 
 </ul>
 
 <br>
-	<div id="newComments">
-        <?php
-    	if(empty($newComments)){
-    		echo("<em> Il n'y a aucun nouveau comentaire </em>");
-    	}else{
-	        foreach ($newComments as $newComment){
-	        ?>
 
-				<div class="alert alert-primary">
-					<h4> <?= $newComment->author ?></h4>
-					<em> <?= $newComment->comment_date ?></em>
-					<p> <?= $newComment->comment ?></p>
-													<form action="index.php?action=deleteComment&amp;id=<?= $newComment->id ?>" method="post">
-									<button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-								</form>
-		
-				</div>
-			  
-
-        <?php
-        	}
-        }
-        ?>
-	</div>
-	<div id="allComments">
-	   <?php
-    	if(empty($allComments)){
-    		echo("<em> Il n'y a aucun comentaire </em>");
-    	}else{
-	        foreach ($allComments as $allComment){
-	        ?>
-
-				<div class="alert alert-primary">
-					<h4> <?= $allComment->author ?></h4>
-					<em> <?= $allComment->comment_date ?></em>
-					<p> <?= $allComment->comment ?></p>
-						
-								<form action="index.php?action=deleteComment&amp;id=<?= $allComment->id ?>" method="post">
-									<button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-								</form>
-		
-				</div>
-			  
-
-        <?php
-        	}
-        }
-        ?>
-	</div>
-	<div id="reportedComments">
 		<?php
-    	if(empty($reportedComments)){
-    		echo("<em> Il n'y a aucun comentaire signalé</em>");
+    	if(empty($posts)){
+    		if($p == 0){
+    			echo("<em> Il n'y a aucun nouveau comentaire </em>");    			
+    		}elseif($p == 1){
+    			echo("<em> Il n'y a aucun comentaire </em>");				
+    		}else{
+    			echo("<em> Il n'y a aucun comentaire signalé</em>");
+    		}
+    		
     	}else{
-	        foreach ($reportedComments as $reportedComment){
+	        foreach ($posts as $post){
 	        ?>
 
-				<div class="alert alert-danger">
-					<h4> <?= $reportedComment->author ?></h4>
-					<em> <?= $reportedComment->comment_date ?></em>
-					<p> <?= $reportedComment->comment ?></p>
-													<form action="index.php?action=deleteComment&amp;id=<?= $reportedComment->id ?>" method="post">
+				<div class="alert <?php
+										if($p == 0){
+							    			echo("alert-primary");
+							    		}elseif($p == 1){
+											echo("alert-primary");
+							    		}else{
+							    			echo("alert-danger");
+							    		}
+									?>">
+					<h4> <?= $post->author ?></h4>
+					<em> <?= $post->comment_date ?></em>
+					<p> <?= $post->comment ?></p>
+								<form action="index.php?action=deleteComment&amp;id=<?= $post->id ?>&amp;p=<?= $p ?>" method="post">
 									<button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
 								</form>
 		
@@ -95,14 +61,13 @@ $classComment = "active";
         	}
         }
         ?>
-	</div>
+
 
 	
 </div>
 
 
 
-<script type="text/javascript" src="./public/js/comments.js"></script>
 <?php $content = ob_get_clean(); ?>
 <?php require('view/template/template.php'); ?>
 <?php

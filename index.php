@@ -8,7 +8,7 @@ require('controller/controller.php');
 if (isset($_GET['action'])) {
 
     if ($_GET['action'] == 'listPosts') {
-    	if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+    	if (isset($_SESSION['id']) && isset($_SESSION['account'])){
 			logged();
 		}
 		else{
@@ -41,7 +41,7 @@ if (isset($_GET['action'])) {
 	    if (isset($_POST['password']) && isset($_POST['account'])){ 
 			if(connect($_POST['account'], $_POST['password'])) {
 				
-				        logged($_POST['account']);
+				        listPosts();
 				       
 			}
 			else {
@@ -54,7 +54,7 @@ if (isset($_GET['action'])) {
 		}
 	}
 	elseif ($_GET['action'] == 'save'){
-		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+		if (isset($_SESSION['id']) && isset($_SESSION['account'])){
 			if (isset($_POST['text'])){ // add title cheker
 				saveChapter($_POST['title'], $_POST['text']);
 			}
@@ -67,7 +67,7 @@ if (isset($_GET['action'])) {
 		}
 	}
 	elseif ($_GET['action'] == 'newChapter'){
-		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+		if (isset($_SESSION['id']) && isset($_SESSION['account'])){
 			newChapter();
 		}
 		else{
@@ -79,7 +79,7 @@ if (isset($_GET['action'])) {
 		
 	}
 	elseif ($_GET['action'] == 'edit'){
-		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+		if (isset($_SESSION['id']) && isset($_SESSION['account'])){
 			editChapter();
 		}
 		else{
@@ -87,7 +87,7 @@ if (isset($_GET['action'])) {
 		}
 	}
 	elseif ($_GET['action'] == 'editSave'){
-		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+		if (isset($_SESSION['id']) && isset($_SESSION['account'])){
 			if (isset($_POST['text'])){ // add title cheker
 
 				saveEdit($_POST['title'], $_POST['text'], $_POST['id']);
@@ -106,15 +106,36 @@ if (isset($_GET['action'])) {
          report($_GET['id'], $_POST['idComment']);
     }
     elseif ($_GET['action'] == 'allComments'){
-		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
-			allComments();
+		if (isset($_SESSION['id']) && isset($_SESSION['account'])){
+			//allComments();
+			if (isset($_GET['p'])){
+				if ($_GET['p'] == 1){
+					//require 'comments/all.php';
+					getAllComments();
+				}elseif($_GET['p'] == 2){
+					//require 'comments/reported.php';
+					getReportedComments();
+				}else{
+					//require 'comments/new.php';
+
+					getNewComments();
+				}
+
+			}
+				else{
+					//require 'comments/new.php';
+
+					getNewComments();
+				}
+
 		}
+
 		else{
 			listPosts();
 		}
 	}
 	elseif ($_GET['action'] == 'deleteChapter'){
-		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+		if (isset($_SESSION['id']) && isset($_SESSION['account'])){
 			deleteChapter($_GET['id']);
 		}
 		else{
@@ -122,8 +143,8 @@ if (isset($_GET['action'])) {
 		}
 	}
 	elseif ($_GET['action'] == 'deleteComment'){
-		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
-			deleteComment($_GET['id']);
+		if (isset($_SESSION['id']) && isset($_SESSION['account'])){
+			deleteComment($_GET['id'],$_GET['p']);
 		}
 		else{
 			listPosts();
@@ -134,11 +155,8 @@ if (isset($_GET['action'])) {
 	}
 }
 else {
-	if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
-		logged();
-	}
-	else{
+	
 		listPosts();
-	}
+	
     
 }

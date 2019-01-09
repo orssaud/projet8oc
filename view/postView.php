@@ -13,7 +13,7 @@
 
         <div class="news">
             <?php
-                if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+                if (isset($_SESSION['id']) && isset($_SESSION['account'])){
                // var_dump($post);
               ?> 
             
