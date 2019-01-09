@@ -1,0 +1,18 @@
+#goTop {
+   position:fixed;
+   bottom: 40px;
+   right: 40px;
+   display: none;
+}
+.reportButton{
+	border:none;
+	color: #dc3545;
+    background-color: transparent;
+}
+.reportButton:hover{
+ color: #c82333;
+}
+.reported{
+	color:#c82333;
+	font-style: italic;
+}

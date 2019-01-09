@@ -21,13 +21,14 @@ require('view/listPostsView.php');
 /* --------------------------------------------
 				ONLY ONE POST
 ----------------------------------------------*/
-function post()
+function post($id)
 {
+	
 	$postManager = new postManager();
 	$commentsManager = new commentsManager();
 
-	$post = $postManager->onePost($_GET['id']);
-	$comments = $commentsManager->commentsForOnePost($_GET['id']);
+	$post = $postManager->onePost($id);
+	$comments = $commentsManager->commentsForOnePost($id);
 
     require('view/postView.php');
 }
@@ -36,10 +37,11 @@ function post()
 					COMMENT
 ----------------------------------------------*/
 
-function addComment($postId, $author, $comment)
+function addComment($postId, $author, $comment, $byAuthor)
 {
+
 	$commentsManager = new commentsManager();
-	$post = $commentsManager->addComment($postId, $author, $comment);
+	$post = $commentsManager->addComment($postId, $author, $comment, $byAuthor);
 
     if ($post === false) {
         die('Impossible d\'ajouter le commentaire !');
@@ -114,6 +116,14 @@ function deleteComment($id, $p)
 	}else{
 		getNewComments();
 	}
+
+}
+function deleteCommentPost($id, $postId)
+{
+	$commentsManager = new commentsManager();
+	$commentsManager->deleteComment($id);
+
+post($postId);
 
 }
 function deleteComments($id) // chapter id

@@ -18,7 +18,7 @@ if (isset($_GET['action'])) {
     }
     elseif ($_GET['action'] == 'post') {
         if (isset($_GET['id']) && $_GET['id'] > 0) {
-            post();
+            post($_GET['id']);
         }
         else {
             echo 'Erreur : aucun identifiant de billet envoyé';
@@ -27,7 +27,8 @@ if (isset($_GET['action'])) {
     elseif ($_GET['action'] == 'addComment') {
         if (isset($_GET['id']) && $_GET['id'] > 0) {
             if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-                addComment($_GET['id'], $_POST['author'], $_POST['comment']);
+
+                addComment($_GET['id'], $_POST['author'], $_POST['comment'], $_POST['byAuthor']);
             }
             else {
                 echo 'Erreur : tous les champs ne sont pas remplis !';
@@ -145,6 +146,14 @@ if (isset($_GET['action'])) {
 	elseif ($_GET['action'] == 'deleteComment'){
 		if (isset($_SESSION['id']) && isset($_SESSION['account'])){
 			deleteComment($_GET['id'],$_GET['p']);
+		}
+		else{
+			listPosts();
+		}
+	}
+	elseif ($_GET['action'] == 'deleteCommentPost'){
+		if (isset($_SESSION['id']) && isset($_SESSION['account'])){
+			deleteCommentPost($_GET['id'],$_GET['postId']);
 		}
 		else{
 			listPosts();

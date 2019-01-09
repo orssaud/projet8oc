@@ -6,13 +6,13 @@ class commentsManager extends dataBase
 
 
 	public function commentsForOnePost($id){
-			$comments = $this->prepare('SELECT id, author, comment, comment_date FROM comments WHERE post_id = ? ORDER BY comment_date DESC', [$id]);
+			$comments = $this->prepare('SELECT id, author, comment, comment_date, by_author FROM comments WHERE post_id = ? ORDER BY comment_date DESC', [$id]);
 
 			return $comments;
 	}
 
-	public function addComment($postId,$author,$comment){
-		 $post = $this->prepare('INSERT INTO comments(post_id, author, comment, comment_date, reported) VALUES(?, ?, ?, NOW(), 0)', [$postId,$author,$comment]);
+	public function addComment($postId,$author,$comment,$byAuthor){
+		 $post = $this->prepare('INSERT INTO comments(post_id, author, comment, comment_date, reported, by_author) VALUES(?, ?, ?, NOW(), 0, ?)', [$postId,$author,$comment,$byAuthor]);
 		 return $post;
 
 	}
@@ -61,7 +61,7 @@ class commentsManager extends dataBase
 
 	$posts = $this->prepare('SELECT *
 						FROM comments
-						WHERE comment_date 
+						WHERE by_author < 1 AND comment_date  
 						BETWEEN ? AND NOW()
 						ORDER BY comment_date DESC', [$logDate]);
 	return $posts;
