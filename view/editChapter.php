@@ -1,24 +1,27 @@
 <?php $title = "Billet simple pour l'Alaska"; 
  $classLog = ""; 
  $classHome = "";
- $classChapter = "active"; 
+ $classChapter = ""; 
  $classComment = "";
  ?>
-
 
 <?php ob_start(); ?>
 
   <p><a href="index.php">Retour à la liste des chapitres</a></p>
 
-<form action="index.php?action=save" method="post">
-    
+<form action="index.php?action=editSave" method="post">
+        <div>
+             <input type="hidden" id="id" name="id" value="<?= $post->id ?>">
+        </div>
         <div class="form-group">
             <label for="title">Titre :</label>
-            <input type="text" class="form-control" id="title" name="title" />
+            <input type="text" class="form-control" id="title" name="title" value="<?= $post->title ?>"/>
         </div>
         <div class="form-group">
             <label for="chapter">Chapitre :</label>
-            <textarea class="tinymce form-control" name="text" ></textarea>
+            <textarea class="tinymce form-control" name="text" >
+                 <?= $post->content; ?>
+            </textarea>
         </div>
         
         <button type="submit" class="btn btn-primary" value="publier">Publier</button>

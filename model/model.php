@@ -1,5 +1,5 @@
 <?php
-function getPosts()
+/*function getPosts()
 {
     $db = dbConnect();
     $req = $db->query('SELECT id, title, content, chapter_date FROM chapter ORDER BY chapter_date DESC LIMIT 0, 5');
@@ -13,7 +13,7 @@ function getPost($postId)
     $req = $db->prepare('SELECT id, title, content, chapter_date FROM chapter WHERE id = ?');
     $req->execute(array($postId));
     $post = $req->fetch();
-
+    //    var_dump($post);
     return $post;
 }
 
@@ -21,8 +21,9 @@ function getComments($postId)
 {
     $db = dbConnect();
     $comments = $db->prepare('SELECT id, author, comment, comment_date FROM comments WHERE post_id = ? ORDER BY comment_date DESC');
-    $comments->execute(array($postId));
+    $post = $comments->execute(array($postId));
 
+      //  var_dump($post);
     return $comments;
 }
 
@@ -66,5 +67,5 @@ function dbConnect()
         die('Erreur : '.$e->getMessage());
     }
 }
-
+*/
 

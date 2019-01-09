@@ -1,27 +1,31 @@
-<?php $title = "Billet simple pour l'Alaska"; ?>
+<?php $title = "Billet simple pour l'Alaska"; 
+ $classLog = "active"; 
+ $classHome = "";
+ $classChapter = ""; 
+ $classComment = "";
+ ?>
+
 
 <?php ob_start(); ?>
 
+<div class="row">
+    <div class="col-lg-offset-4 col-lg-4">
+        <form class="form-group" action="index.php?action=login" method="post">
+            <div class="form-group">
+                <label for="account">Account</label><br />
+                <input type="text" class="form-control" id="account" name="account" placeholder="Account"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label><br />
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password"/>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Connection</button>
+            
+        </form>
 
-<form action="index.php?action=login" method="post">
-    <div>
-        <label for="account">account</label><br />
-        <input type="text" id="account" name="account" />
     </div>
-    <div>
-        <label for="password">password</label><br />
-        <input type="password" id="password" name="password" />
-    </div>
-    <div>
-        <input type="submit" />
-    </div>
-</form>
-<!--
-<form action="login_POST.php" method="post">
- <p>Votre nom : <input type="text" name="nom" /></p>
- <p>Votre âge : <input type="text" name="age" /></p>
- <p><input type="submit" value="OK"></p>
-</form>-->
+</div>
 <?php $content = ob_get_clean(); ?>
 
-<?php require('view/template.php'); ?>
+<?php require('view/template/template.php'); ?>

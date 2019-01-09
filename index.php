@@ -3,6 +3,8 @@ session_start();
 
 require('controller/controller.php');
 
+
+
 if (isset($_GET['action'])) {
 
     if ($_GET['action'] == 'listPosts') {
@@ -38,8 +40,8 @@ if (isset($_GET['action'])) {
     elseif ($_GET['action'] == 'login'){    
 	    if (isset($_POST['password']) && isset($_POST['account'])){ 
 			if(connect($_POST['account'], $_POST['password'])) {
-
-				        logged();
+				
+				        logged($_POST['account']);
 				       
 			}
 			else {
@@ -76,7 +78,60 @@ if (isset($_GET['action'])) {
 		destroySession();
 		
 	}
-	
+	elseif ($_GET['action'] == 'edit'){
+		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+			editChapter();
+		}
+		else{
+			listPosts();
+		}
+	}
+	elseif ($_GET['action'] == 'editSave'){
+		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+			if (isset($_POST['text'])){ // add title cheker
+
+				saveEdit($_POST['title'], $_POST['text'], $_POST['id']);
+			}
+			else{
+				echo "aucun contenu à sauvegarder";
+			}
+		}
+		else{
+			listPosts();
+		}
+	}
+	elseif ($_GET['action'] == 'reported') {
+        //var_dump($_GET['id']);
+         //var_dump($_POST['idComment']);
+         report($_GET['id'], $_POST['idComment']);
+    }
+    elseif ($_GET['action'] == 'allComments'){
+		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+			allComments();
+		}
+		else{
+			listPosts();
+		}
+	}
+	elseif ($_GET['action'] == 'deleteChapter'){
+		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+			deleteChapter($_GET['id']);
+		}
+		else{
+			listPosts();
+		}
+	}
+	elseif ($_GET['action'] == 'deleteComment'){
+		if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+			deleteComment($_GET['id']);
+		}
+		else{
+			listPosts();
+		}
+	}
+	else{
+		listPosts();
+	}
 }
 else {
 	if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
