@@ -1,6 +1,7 @@
 <?php 
+namespace projet8;
 
-class chapterManager extends dataBase
+class chapterManager extends \projet8\dataBase
 {
 	public function saveChapter($title,$chapter){
 		$post = $this->prepare('INSERT INTO chapter(title, chapter_date, content) VALUES(?, NOW(), ?)', [$title,$chapter]);

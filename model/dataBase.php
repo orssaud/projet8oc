@@ -1,5 +1,6 @@
 <?php
-
+namespace projet8;
+use \PDO;
 class  dataBase{
 
 	private $db_name;

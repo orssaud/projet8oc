@@ -15,24 +15,13 @@
                     
                 ?> >
 <hr class="hrComments">    
-            <?php
-            $date = strtotime($comment->comment_date);
-           // var_dump($date);
-            $actualDate = time() + 7200;
-            //var_dump($actualDate);
-            $sub = $actualDate - $date;
-            //var_dump($sub);
-            //$name = ['60' =>'1 min', '300' => '5 min', '600' => '10 min'];
-            //var_dump($name);
-
-            //var_dump(relativeTime($sub));
-            ?>
+            
 
             <p><strong class="<?php 
              if($comment->by_author == 1){ 
                 echo('red');
              }
-                ?>"><?= $comment->author; ?>&nbsp;&nbsp;&nbsp;</strong><span class="grey"><?= relativeTime($sub); ?></span></p>
+                ?>"><?= $comment->author; ?>&nbsp;&nbsp;&nbsp;</strong><span class="grey"><?= $time->relativeTime($comment->comment_date); ?></span></p>
             <p><?=$comment->comment; ?></p>
 
 

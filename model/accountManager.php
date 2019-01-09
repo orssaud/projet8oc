@@ -1,6 +1,7 @@
 <?php 
+namespace projet8;
 
-class accountManager extends dataBase
+class accountManager extends \projet8\dataBase
 {
 
 	private function getLoginDate($account){
@@ -12,7 +13,7 @@ class accountManager extends dataBase
 
 	private function setLoginDate($account){
 		$post = $this->prepare('	UPDATE account
-							SET lastLogin = NOW()
+							SET lastLogin = UNIX_TIMESTAMP()
 							WHERE accountName = ?', 
 							[$account]);
 	}

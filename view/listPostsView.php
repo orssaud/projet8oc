@@ -8,6 +8,7 @@ $bg="bg";
 
 
 <?php ob_start(); ?>
+<div class="container">
 <br>
 
         <?php
@@ -66,7 +67,7 @@ echo utf8_encode(strftime('Le %A %d %B %Y &agrave; %Hh%M', strtotime($post->chap
         }
         ?>
 
-
+</div>
 <?php $content = ob_get_clean(); ?>
 
 <?php require('view/template/template.php'); ?>

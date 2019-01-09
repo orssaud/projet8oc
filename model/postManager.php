@@ -1,6 +1,7 @@
 <?php
+namespace projet8;
 
-class postManager extends dataBase
+class postManager extends \projet8\dataBase
 {
 
 	public function listPosts(){

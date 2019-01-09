@@ -7,6 +7,7 @@ $classComment = "active";
 // $_SESSION['newComments'] = 1;
 ?>
 <?php ob_start(); ?>
+ <div class="container">
 <br>
 <div>
 	
@@ -49,7 +50,7 @@ $classComment = "active";
 							    		}
 									?>">
 					<h4 class="black"> <?= $post->author ?></h4>
-					<em class="grey"> <?= $post->comment_date ?></em>
+					<em class="grey"> <?= $time->relativeTime($post->comment_date) ?></em>
 					<p class="dark-grey allCommentP"> <?= $post->comment ?></p>
 								<form action="index.php?action=deleteComment&amp;id=<?= $post->id ?>&amp;p=<?= $p ?>" method="post">
 									<button type="submit" class="btn-right-trash btn btn-danger" title="Supprimer ce message"><i class="fas fa-trash-alt"></i></button>
@@ -66,7 +67,7 @@ $classComment = "active";
 
 	
 </div>
-
+</div>
 
 <?php $content = ob_get_clean(); ?>
 <?php require('view/template/template.php'); ?>

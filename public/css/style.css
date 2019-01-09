@@ -1,8 +1,9 @@
 #goTop {
    position:fixed;
-   bottom: 40px;
+   bottom: 100px;
    right: 40px;
    display: none;
+   z-index: 1;
 }
 .reportButton{
 	border:none;
@@ -180,6 +181,26 @@ h3{
   animation-duration: 1s;
   animation-fill-mode: forwards;
   animation-name: anim2;
+}
+
+.container{
+min-height: 100%;
+}
+footer{
+  background-color: black;
+position: absolute;
+        text-align: center;
+    width: 100%;
+    padding-top: 20px;
+    padding: 20px;
+
+}
+
+.error{
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 @keyframes anim {

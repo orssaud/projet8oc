@@ -15,7 +15,7 @@ $bg="bg";
             <h3>
                 
              <p>
-			Le chapitre n'existe pas encore...
+			<?php echo 'Erreur : ' . $e->getMessage(); ?>
 			<br>
 			<a href="./index.php">Retour à la page d'accueil</a> 
 			</p>

@@ -1,6 +1,7 @@
 <?php
+namespace projet8;
 
-class commentsManager extends dataBase
+class commentsManager extends \projet8\dataBase
 {
 
 
@@ -12,7 +13,10 @@ class commentsManager extends dataBase
 	}
 
 	public function addComment($postId,$author,$comment,$byAuthor,$comId){
-		 $post = $this->prepare('INSERT INTO comments(post_id, author, comment, comment_date, reported, by_author, reply) VALUES(?, ?, ?, NOW(), 0, ?, ?)', [$postId,$author,$comment,$byAuthor,$comId]);
+		$time = \time ();
+		var_dump($time);
+		 $post = $this->prepare('INSERT INTO comments(post_id, author, comment, comment_date, reported, by_author, reply) VALUES(?, ?, ?, UNIX_TIMESTAMP(), 0, ?, ?)', [$postId,$author,$comment,$byAuthor,$comId]);
+		 
 		 return $post;
 
 	}
@@ -63,7 +67,7 @@ class commentsManager extends dataBase
 	$posts = $this->prepare('SELECT *
 						FROM comments
 						WHERE by_author < 1 AND comment_date  
-						BETWEEN ? AND NOW()
+						BETWEEN ? AND UNIX_TIMESTAMP()
 						ORDER BY comment_date DESC', [$logDate]);
 	return $posts;
 	}

@@ -6,13 +6,14 @@ require_once('model/postManager.php');
 require_once('model/commentsManager.php');
 require_once('model/chapterManager.php');
 require_once('model/accountManager.php');
+require_once('model/relativeTime.php');
 
 /* --------------------------------------------
 					POSTS
 ----------------------------------------------*/
 function listPosts()
 {
-$postManager = new postManager();
+$postManager = new \projet8\postManager();
 $posts = $postManager->listPosts();
 
 require('view/listPostsView.php');
@@ -24,8 +25,9 @@ require('view/listPostsView.php');
 function post($id)
 {
 	
-	$postManager = new postManager();
-	$commentsManager = new commentsManager();
+	$postManager = new \projet8\postManager();
+	$commentsManager = new \projet8\commentsManager();
+	$time = new \projet8\time();
 
 	$post = $postManager->onePost($id);
 	if($post){
@@ -61,11 +63,11 @@ function post($id)
 function addComment($postId, $author, $comment, $byAuthor, $comId)
 {
 
-	$commentsManager = new commentsManager();
+	$commentsManager = new \projet8\commentsManager();
 	$post = $commentsManager->addComment($postId, $author, $comment, $byAuthor, $comId);
 
     if ($post === false) {
-        die('Impossible d\'ajouter le commentaire !');
+        throw new Exception('Impossible d\'ajouter le commentaire !');
     }
     else {
         header('Location: index.php?action=post&id=' . $postId);
@@ -75,11 +77,11 @@ function addComment($postId, $author, $comment, $byAuthor, $comId)
 
 function report($postId, $commentId)
 {
-	$commentsManager = new commentsManager();
+	$commentsManager = new \projet8\commentsManager();
 	$post = $commentsManager->reported($postId, $commentId);
 
     if ($post === false) {
-        die('Impossible d\'ajouter le commentaire !');
+        throw new Exception('Impossible de signaler le commentaire !');
     }
     else {
         header('Location: index.php?action=post&id=' . $postId);
@@ -88,7 +90,7 @@ function report($postId, $commentId)
 function getNewCommentsNumber()
 {
 	
-	$commentsManager = new commentsManager();
+	$commentsManager = new \projet8\commentsManager();
 	$posts = $commentsManager->getNewComments();
 	
 	$newComments = count($posts);
@@ -98,28 +100,34 @@ function getNewCommentsNumber()
 }
 function getNewComments()
 {
-	$p = 0;
+	$time = new \projet8\time();
 
-	$commentsManager = new commentsManager();
+	$p = 0; //nav menu 0 
+
+	$commentsManager = new \projet8\commentsManager();
 	$posts = $commentsManager->getNewComments();
 	
 	require('view/commentsView.php');
 }
 function getAllComments()
 {
-	$p = 1;
+	$time = new \projet8\time();
+
+	$p = 1;  //nav menu 1 
 
 
-	$commentsManager = new commentsManager();
+	$commentsManager = new \projet8\commentsManager();
 	$posts = $commentsManager->getAllComments();
 	
 	require('view/commentsView.php');
 }
 function getReportedComments()
 {
-	$p = 2;
+	$time = new \projet8\time();
+	
+	$p = 2;  //nav menu 2 
 
-	$commentsManager = new commentsManager();
+	$commentsManager = new \projet8\commentsManager();
 	$posts = $commentsManager->getReportedComments();
 	
 	require('view/commentsView.php');
@@ -127,7 +135,7 @@ function getReportedComments()
 
 function deleteComment($id, $p)
 {
-	$commentsManager = new commentsManager();
+	$commentsManager = new \projet8\commentsManager();
 	$commentsManager->deleteComment($id);
 
 	if($p == 1){
@@ -141,7 +149,7 @@ function deleteComment($id, $p)
 }
 function deleteCommentPost($id, $postId)
 {
-	$commentsManager = new commentsManager();
+	$commentsManager = new \projet8\commentsManager();
 	$commentsManager->deleteComment($id);
 
 post($postId);
@@ -149,7 +157,7 @@ post($postId);
 }
 function deleteComments($id) // chapter id
 {
-	$commentsManager = new commentsManager();
+	$commentsManager = new \projet8\commentsManager();
 	$commentsManager->deleteComments($id);
 
 }
@@ -162,12 +170,13 @@ function deleteComments($id) // chapter id
 function saveChapter($title, $chapter)
 {
 
-	$chapterManager = new chapterManager();
+	$chapterManager = new \projet8\chapterManager();
 	$post = $chapterManager->saveChapter($title, $chapter);
 
 
 	if ($post === false){
-		die('Impossible d\'ajouter le chapitre !');
+		throw new Exception('Impossible d\'ajouter le chapitre !');
+
 	}
 	else {
         header('Location: index.php');
@@ -181,17 +190,17 @@ function newChapter()
 
 function editChapter(){
 
-	$chapterManager = new chapterManager();
+	$chapterManager = new \projet8\chapterManager();
 	$post = $chapterManager->editChapter($_GET['id']);
 	require('view/editChapter.php');
 }
 
 function saveEdit($title, $chapter, $id){
-	$chapterManager = new chapterManager();
+	$chapterManager = new \projet8\chapterManager();
 	$post = $chapterManager->updateChapter($title, $chapter, $id);
 
 	if ($post === false){
-		die('Impossible d\'ajouter le chapitre !');
+		throw new Exception('Impossible d\'ajouter le chapitre !');
 	}
 	else {
         header('Location: index.php');
@@ -200,7 +209,7 @@ function saveEdit($title, $chapter, $id){
 }
 function deleteChapter($id)
 {
-	$chapterManager = new chapterManager();
+	$chapterManager = new \projet8\chapterManager();
 	$post = $chapterManager->deleteChapter($id);
 
 deleteComments($id);
@@ -219,7 +228,9 @@ function login()
 
 function connect($account, $password)
 {
-	$accountManager = new accountManager();
+	$account = addslashes($account);
+
+	$accountManager = new \projet8\accountManager();
 	$post = $accountManager->connect($account);
 
     if($post !== false && password_verify($password, $post->passwordAccount)) {
@@ -229,11 +240,13 @@ function connect($account, $password)
         $_SESSION['newComments'] = getNewCommentsNumber();
 
  
-        return true;
+       
+        listPosts();
     }
     else{
      
-        return false;
+        	 echo '<div class="error">Mauvais identifiant ou mot de passe !</div>';
+					login();
     }
 }
 
