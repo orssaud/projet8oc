@@ -5,7 +5,7 @@ class postManager extends dataBase
 
 	public function listPosts(){
 
-		$posts = $this->query('SELECT id, title, content, chapter_date FROM chapter ORDER BY chapter_date DESC LIMIT 0, 5');
+		$posts = $this->query('SELECT id, title, content, chapter_date FROM chapter ORDER BY chapter_date DESC');
 			
 
 		return $posts;

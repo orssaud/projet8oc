@@ -27,8 +27,12 @@ if (isset($_GET['action'])) {
     elseif ($_GET['action'] == 'addComment') {
         if (isset($_GET['id']) && $_GET['id'] > 0) {
             if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-
-                addComment($_GET['id'], $_POST['author'], $_POST['comment'], $_POST['byAuthor']);
+            	if(isset($_POST['comId'])){
+            		addComment($_GET['id'], $_POST['author'], $_POST['comment'], $_POST['byAuthor'], $_POST['comId']);
+            	}else{
+            		addComment($_GET['id'], $_POST['author'], $_POST['comment'], $_POST['byAuthor'], null);
+            	}
+                
             }
             else {
                 echo 'Erreur : tous les champs ne sont pas remplis !';

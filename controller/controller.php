@@ -28,20 +28,41 @@ function post($id)
 	$commentsManager = new commentsManager();
 
 	$post = $postManager->onePost($id);
-	$comments = $commentsManager->commentsForOnePost($id);
+	if($post){
+		$comments = $commentsManager->commentsForOnePost($id);
+
+	        $commentsById = [];
+        foreach($comments as $comment){
+            if($comment->reply === null){
+                $commentsById[$comment->id] = $comment;
+            }
+            
+        }
+
+        foreach($comments as $comment){
+
+            if($comment->reply !== null){
+                $commentsById[$comment->reply]->children[] = $comment;
+            }
+        }
 
     require('view/postView.php');
+	}
+	else{
+		require('view/noChapterView.php');
+	}
+	
 }
 
 /* --------------------------------------------
 					COMMENT
 ----------------------------------------------*/
 
-function addComment($postId, $author, $comment, $byAuthor)
+function addComment($postId, $author, $comment, $byAuthor, $comId)
 {
 
 	$commentsManager = new commentsManager();
-	$post = $commentsManager->addComment($postId, $author, $comment, $byAuthor);
+	$post = $commentsManager->addComment($postId, $author, $comment, $byAuthor, $comId);
 
     if ($post === false) {
         die('Impossible d\'ajouter le commentaire !');

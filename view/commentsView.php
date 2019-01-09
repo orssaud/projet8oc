@@ -1,4 +1,5 @@
 <?php $title = "Billet simple pour l'Alaska";
+$bg="";
 $classLog = "";
 $classHome = "";
 $classChapter = "";
@@ -11,13 +12,13 @@ $classComment = "active";
 	
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link <?php if($p == 0){echo('active');} ?>" id="new" href="./index.php?action=allComments&amp;p=0">New</a>
+    <a class="light-grey nav-link <?php if($p == 0){echo('active');} ?>" id="new" href="./index.php?action=allComments&amp;p=0">Nouveau</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <?php if($p == 1){echo('active');} ?>"  id="all" href="./index.php?action=allComments&amp;p=1">All</a>
+    <a class="light-grey nav-link <?php if($p == 1){echo('active');} ?>"  id="all" href="./index.php?action=allComments&amp;p=1">Tous</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link <?php if($p == 2){echo('active');} ?>" id="reported" href="./index.php?action=allComments&amp;p=2">Reported</a>
+    <a class="light-grey nav-link <?php if($p == 2){echo('active');} ?>" id="reported" href="./index.php?action=allComments&amp;p=2">Signalé</a>
   </li>
 
 </ul>
@@ -37,25 +38,25 @@ $classComment = "active";
     	}else{
 	        foreach ($posts as $post){
 	        ?>
-
+	        <a class="text-decoration" href="./index.php?action=post&amp;id=<?= $post->post_id ?>#<?= $post->id ?>">
 				<div class="alert <?php
 										if($p == 0){
-							    			echo("alert-primary");
+							    			echo("alert-light");
 							    		}elseif($p == 1){
-											echo("alert-primary");
+											echo("alert-light");
 							    		}else{
 							    			echo("alert-danger");
 							    		}
 									?>">
-					<h4> <?= $post->author ?></h4>
-					<em> <?= $post->comment_date ?></em>
-					<p> <?= $post->comment ?></p>
+					<h4 class="black"> <?= $post->author ?></h4>
+					<em class="grey"> <?= $post->comment_date ?></em>
+					<p class="dark-grey allCommentP"> <?= $post->comment ?></p>
 								<form action="index.php?action=deleteComment&amp;id=<?= $post->id ?>&amp;p=<?= $p ?>" method="post">
-									<button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+									<button type="submit" class="btn-right-trash btn btn-danger" title="Supprimer ce message"><i class="fas fa-trash-alt"></i></button>
 								</form>
 		
 				</div>
-			  
+			</a>  
 
         <?php
         	}

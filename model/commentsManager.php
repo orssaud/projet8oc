@@ -6,13 +6,13 @@ class commentsManager extends dataBase
 
 
 	public function commentsForOnePost($id){
-			$comments = $this->prepare('SELECT id, author, comment, comment_date, by_author FROM comments WHERE post_id = ? ORDER BY comment_date DESC', [$id]);
+			$comments = $this->prepare('SELECT id, author, comment, comment_date, by_author, reply FROM comments WHERE post_id = ? ORDER BY comment_date DESC', [$id]);
 
 			return $comments;
 	}
 
-	public function addComment($postId,$author,$comment,$byAuthor){
-		 $post = $this->prepare('INSERT INTO comments(post_id, author, comment, comment_date, reported, by_author) VALUES(?, ?, ?, NOW(), 0, ?)', [$postId,$author,$comment,$byAuthor]);
+	public function addComment($postId,$author,$comment,$byAuthor,$comId){
+		 $post = $this->prepare('INSERT INTO comments(post_id, author, comment, comment_date, reported, by_author, reply) VALUES(?, ?, ?, NOW(), 0, ?, ?)', [$postId,$author,$comment,$byAuthor,$comId]);
 		 return $post;
 
 	}
@@ -36,11 +36,12 @@ class commentsManager extends dataBase
 		$this->prepare('DELETE FROM `comments`
 						WHERE `post_id` = ?',
 						 [$id]);
+
 	}
 	public function deleteComment($id){
 		$this->prepare('DELETE FROM `comments`
-						WHERE `id` = ?',
-						 [$id]);
+						WHERE `id` = ? OR reply = ?',
+						 [$id,$id]);
 	}
 	public function getReportedComments(){
 		$posts = $this->query('SELECT *

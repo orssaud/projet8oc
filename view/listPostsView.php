@@ -1,4 +1,5 @@
 <?php $title = "Billet simple pour l'Alaska"; 
+$bg="bg";
  $classLog = ""; 
  $classHome = "active";
  $classChapter = ""; 
@@ -7,55 +8,58 @@
 
 
 <?php ob_start(); ?>
-
-        
-        <p>Derniers chapitres :</p>
-        
-
-    <?php 
-   
-    /*
-        if (isset($_SESSION['id']) && isset($_SESSION['pseudo'])){ 
-                echo("vous êtes connecté");
-
-            require('view/menu.php'); 
-        }*/
-    ?>
+<br>
 
         <?php
 
         foreach ($posts as $post){
         ?>
-            <div class="news 
+         <a class="news" href="index.php?action=post&id=<?= $post->id ?>"  title="Lire la suite !">  
+
+             
 
                       <?php 
                   
                       if ($posts[0]->id === $post->id){
-                        echo 'jumbotron';
+                        echo '<div class="new shadow p-3 mb-5 bg-white rounded"';
+                    }else{
+                        echo '<div class="shadow p-3 mb-5 bg-white rounded"';
                     }
+                   ?>
+
+                      <?php 
+                  /*
+                      if ($posts[0]->id === $post->id){
+                        echo 'jumbotron';
+                    }*/
                    ?>
 
             ">
-                <h3>
+                <h2>
                     <?= $post->title ?>
-                    <em>le <?= $post->chapter_date ?></em>
+                   
 
                       <?php 
                   
                       if ($posts[0]->id === $post->id){
-                        echo '<span class="badge badge-secondary">New</span>';
+                        echo '<br><span class="badge badge-danger">Nouveau !</span>';
                     }
                    ?>
        
-                </h3>
-                
+                </h2>
+                      <em class="grey"> <?php 
+
+setlocale (LC_TIME, 'fr_FR.utf8','fra');
+echo utf8_encode(strftime('Le %A %d %B %Y &agrave; %Hh%M', strtotime($post->chapter_date)));
+
+                ?></em>
                 <p>
-                    <?= substr(strip_tags(str_replace('&nbsp;','<br>',$post->content), '<br>'),0,150); ?>
-                    <br />
-                    <em><a href="index.php?action=post&id=<?= $post->id ?>">Commentaires</a></em>
+                    <?= substr(strip_tags(str_replace('&nbsp;','<br>',$post->content), '<br>'),0,500); ?>...
+                   
+                    
                 </p>
             </div>
-
+</a>
   
 
         <?php

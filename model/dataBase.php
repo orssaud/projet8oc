@@ -47,9 +47,5 @@ class  dataBase{
     	return $data;
 	}
 
-	public function test(){
-
-		var_dump('ceci est un test !');
-	}
 
 }

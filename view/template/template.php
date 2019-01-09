@@ -12,20 +12,25 @@
          <link href="./public/css/style.css" rel="stylesheet" type="text/css" /> 
 
             <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+            
     <link rel="shortcut icon" type="image/x-icon" href="./public/images/favicon.png">
 
     </head>
         
     <body>
 
-   	<div class="container">
+   
    	<!-- 		Nav menu 		-->
       <?php require('nav.php'); ?>
     <!-- 		////////		-->
+<div class="<?= $bg ?>"></div>
+
+
+      <div class="container">
       <?= $content ?>
     </div>
        <Button  id="goTop" class="btn btn-outline-secondary"><i class="fas fa-angle-up"></i></Button>
         <script type="text/javascript" src="./public/js/goTop.js"></script>
-        
+        <script type="text/javascript" src="./public/js/menu.js"></script>
     </body>
 </html>

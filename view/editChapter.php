@@ -1,4 +1,5 @@
 <?php $title = "Billet simple pour l'Alaska"; 
+$bg="";
  $classLog = ""; 
  $classHome = "";
  $classChapter = ""; 
@@ -6,9 +7,7 @@
  ?>
 
 <?php ob_start(); ?>
-
-  <p><a href="index.php">Retour à la liste des chapitres</a></p>
-
+<br>
 <form action="index.php?action=editSave" method="post">
         <div>
              <input type="hidden" id="id" name="id" value="<?= $post->id ?>">

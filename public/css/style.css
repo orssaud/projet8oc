@@ -15,4 +15,219 @@
 .reported{
 	color:#c82333;
 	font-style: italic;
+	    margin-top: 4px; 
+
+}
+.reply{
+	margin-left: 10%;
+}
+.red{
+	color: #dc3545;
+}
+
+.news{
+	color: black;
+}
+.news:hover{
+
+	text-decoration: none;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    background-color: #282828;
+    color: white;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("../images/montagne2.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.caption {
+    position: absolute;
+    left: 0;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    color: #000;
+}
+.border {
+    background-color: #111;
+    color: #fff;
+    padding: 18px;
+    font-size: 25px;
+    letter-spacing: 10px;
+}
+.grey{
+	color: hsl(0, 0%, 53.3%);
+}
+.black{
+	color: black;
+}
+.dark-grey{
+	color: hsl(0, 0%, 23.3%);
+}
+.center-text{
+	 text-align: center;
+}
+.light-grey{
+	color: hsl(0, 0%, 83.3%);
+}
+.light-grey:hover{
+	color: hsl(0, 0%, 83.3%);
+}
+.row{
+	width: 100%;
+}
+#comment{
+	height: 100px;
+}
+.hrComment{
+
+	background-color: white;
+	width: 80%;
+	height: 2px;
+}
+.hrComments{
+	
+	background-color: hsl(0, 0%, 53.3%);
+	width: 100%;
+	height: 1px;
+}
+h3{
+	color: white;
+	font-size: 3em;
+	 
+    color: #fff;
+    padding: 18px;
+   
+    letter-spacing: 5px;
+}
+.new{
+    position: absolute;
+    left: 0;
+    top: 40%;
+    width: 50%;
+    margin-left: 25%;
+    text-align: center;
+    color: #000;
+    max-height: 345px;
+    overflow: hidden;
+}
+.replyLink{
+	color: hsl(0, 0%, 53.3%);
+	font-variant: small-caps;
+	font-size: 1.2em;
+
+}
+.replyLink:hover{
+		color: hsl(0, 0%, 73.3%);
+	text-decoration: none;
+}
+.margin-0{
+	margin:0;
+}
+
+.text-decoration:hover{
+	text-decoration: none;
+}
+.btn-right-trash{
+	position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 25px;
+}
+.allCommentP{
+	    margin-right: 70px;
+}
+
+/* menu */ 
+#menu{
+
+
+	display: none;
+}
+#nav{
+	z-index: 2;
+}
+#menu-content{
+	z-index: 1;
+	width: 100%;
+	height: 80px;
+	position: absolute;
+	top: -120px;
+	left: 0;
+	display: none;
+}
+
+.animationOn {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-name: anim;
+}
+.animationOff {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-name: anim2;
+}
+
+@keyframes anim {
+  from {
+    top: -120px;
+  }
+
+  to {
+    top: 50px;
+  }
+}
+@keyframes anim2 {
+  from {
+    top: 50px;
+  }
+
+  to {
+    top: -120px;
+  }
+}
+
+@media (max-device-width:768px){
+	#menu-content{
+		display: block;
+	}
+    ul{
+    	text-align: center;
+    }
+	#menu{
+		display: block;
+		font-size: 25px;
+	}
+	.menu{
+		display: none;
+	}
+}
+
+@media (max-device-width:425px){
+
+	.new{
+		    margin-left: 5%;
+   			 width: 90%;
+		 overflow: auto;
+	}
+}
+@media (max-device-width:375px){
+
+	.new{
+		 max-height: 320px;
+	}
 }

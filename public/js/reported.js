@@ -3,7 +3,7 @@ var reportObj = {
 		init: function(idDiv){
 				this.idDiv = idDiv;
 			this.idDiv.addEventListener("click", function() {
-	
+		//console.log(this.idDiv.id);
                 localStorage.setItem(this.idDiv.id, true);
         
             }.bind(this));
@@ -12,16 +12,20 @@ var reportObj = {
 }
 
 
-var comments = document.getElementById('comments');
+//var comments = document.getElementById('comments');
 var commentsId = document.querySelectorAll('[id^="report_"]');
 
 
 for (var i = 0; i < commentsId.length; i++) {
 
+	//console.log(commentsId[i]);
+
 	if(localStorage.getItem(commentsId[i].id) !== null){
 		commentsId[i].firstElementChild.style.display = "none";
-		var info = createHtml(commentsId[i], "p", 'merci d\'avoir signaler le message');
-		info.classList.add("reported");
+		commentsId[i].firstElementChild.parentNode.style.display = "none";
+		//console.log(commentsId[i].parentNode.parentNode);
+		var info = createHtml(commentsId[i].parentNode.parentNode, "p", 'Merci d\'avoir signaler le commentaire.');
+		info.classList.add("reported"); 
 	}else{
 
 		var newObject = Object.create(reportObj);
