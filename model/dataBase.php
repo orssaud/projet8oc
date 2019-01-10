@@ -20,7 +20,7 @@ class  dataBase{
 
 	private function getPDO(){
 
-		$pdo = new PDO('mysql:host=localhost;dbname=project8;charset=utf8', 'root', '');
+		$pdo = new PDO('mysql:host='.$this->db_host.';dbname='.$this->db_name.';charset=utf8', $this->db_user, $this->db_pass);
 		$this->pdo = $pdo;
 		return $pdo;
 
