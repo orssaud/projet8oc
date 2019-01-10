@@ -27,7 +27,7 @@ function post($id)
 	
 	$postManager = new \projet8\postManager();
 	$commentsManager = new \projet8\commentsManager();
-	$time = new \projet8\time();
+	$time = new \projet8\time(); // relative time
 
 	$post = $postManager->onePost($id);
 	if($post){
