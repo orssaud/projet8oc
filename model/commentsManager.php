@@ -43,6 +43,7 @@ class commentsManager extends \projet8\dataBase
 
 	}
 	public function deleteComment($id){
+		// delete a comment and all assiosite response 
 		$this->prepare('DELETE FROM `comments`
 						WHERE `id` = ? OR reply = ?',
 						 [$id,$id]);

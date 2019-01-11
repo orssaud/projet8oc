@@ -1,17 +1,16 @@
-<?php $title = "Billet simple pour l'Alaska"; 
+<?php $title = "Billet simple pour l'Alaska";
 $bg="";
- $classLog = ""; 
- $classHome = "";
- $classChapter = ""; 
- $classComment = "";
- ?>
-
+$classLog = "";
+$classHome = "";
+$classChapter = "";
+$classComment = "";
+?>
 <?php ob_start(); ?>
 <div class="container">
-<br>
-<form action="index.php?action=editSave" method="post">
+    <br>
+    <form action="index.php?action=editSave" method="post">
         <div>
-             <input type="hidden" id="id" name="id" value="<?= $post->id ?>">
+            <input type="hidden" id="id" name="id" value="<?= $post->id ?>">
         </div>
         <div class="form-group">
             <label for="title">Titre :</label>
@@ -20,21 +19,17 @@ $bg="";
         <div class="form-group">
             <label for="chapter">Chapitre :</label>
             <textarea class="tinymce form-control" name="text" >
-                 <?= $post->content; ?>
+            <?= $post->content; ?>
             </textarea>
         </div>
         
         <button type="submit" class="btn btn-primary" value="publier">Publier</button>
-       
-</form>
-<br><br>
-
-
-<script type="text/javascript" src="plugin/tinymce/tinymce.min.js"></script>
-<script type="text/javascript" src="plugin/tinymce/jquery.tinymce.min.js"></script>
-<script type="text/javascript" src="plugin/tinymce/init.tinymce.js"></script>
-
+        
+    </form>
+    <br><br>
+    <script type="text/javascript" src="plugin/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="plugin/tinymce/jquery.tinymce.min.js"></script>
+    <script type="text/javascript" src="plugin/tinymce/init.tinymce.js"></script>
 </div>
 <?php $content = ob_get_clean(); ?>
-
 <?php require('view/template/template.php'); ?>

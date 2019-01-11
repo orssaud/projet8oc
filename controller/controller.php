@@ -6,17 +6,18 @@ require_once('model/postManager.php');
 require_once('model/commentsManager.php');
 require_once('model/chapterManager.php');
 require_once('model/accountManager.php');
-require_once('model/relativeTime.php');
+require_once('lib/relativeTime.php');
+
 
 /* --------------------------------------------
 					POSTS
 ----------------------------------------------*/
 function listPosts()
 {
-$postManager = new \projet8\postManager();
-$posts = $postManager->listPosts();
+	$postManager = new \projet8\postManager();
+	$posts = $postManager->listPosts();
 
-require('view/listPostsView.php');
+	require('view/listPostsView.php');
 }
 
 /* --------------------------------------------
@@ -30,9 +31,13 @@ function post($id)
 	$time = new \projet8\time(); // relative time
 
 	$post = $postManager->onePost($id);
-	if($post){
+	if($post){ 
 		$comments = $commentsManager->commentsForOnePost($id);
 
+		/*
+		create a comment array
+		order by ID with children comments
+		*/
 	        $commentsById = [];
         foreach($comments as $comment){
             if($comment->reply === null){
