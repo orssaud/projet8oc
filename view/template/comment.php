@@ -15,8 +15,8 @@ foreach ($commentsById as $comment){
         if($comment->by_author == 1){
         echo('red');
         }
-        ?>"><?= $comment->author; ?>&nbsp;&nbsp;&nbsp;</strong><span class="grey"><?= $time->relativeTime($comment->comment_date); ?></span></p>
-        <p><?=$comment->comment; ?></p>
+        ?>"><?= htmlspecialchars($comment->author); ?>&nbsp;&nbsp;&nbsp;</strong><span class="grey"><?= $time->relativeTime($comment->comment_date); ?></span></p>
+        <p><?= htmlspecialchars($comment->comment); ?></p>
         <?php
         if (isset($_SESSION['id']) && isset($_SESSION['account'])){ // logged
         // var_dump($post);
@@ -75,7 +75,7 @@ foreach ($commentsById as $comment){
         
         ?>
     </div>
-    
+
     <?php
     
     if(isset($comment->children)){

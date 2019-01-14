@@ -24,7 +24,7 @@
     
     <?php }
     else{  ?>
-    <li class="menu nav-item"> <a class="nav-link <?= $classLog ?>" href="./index.php?action=login">Connection</a> </li>
+    <li class="menu nav-item"> <a class="nav-link <?= $classLog ?>" href="./index.php?action=login">Connexion</a> </li>
     
     <?php } ?>
     <li>
