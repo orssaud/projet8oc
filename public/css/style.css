@@ -203,6 +203,13 @@ position: absolute;
   margin-bottom: 10px;
 }
 
+#recovery{
+  top: 20%;
+}
+h2{
+  color: #283747;
+}
+
 @keyframes anim {
   from {
     top: -120px;

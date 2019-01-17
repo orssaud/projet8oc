@@ -2,20 +2,22 @@
 
 //require('model/model.php');
 require_once('model/dataBase.php'); 
-require_once('model/postManager.php');
-require_once('model/commentsManager.php');
 require_once('model/chapterManager.php');
+require_once('model/commentsManager.php');
+//require_once('model/chapterManager.php');
 require_once('model/accountManager.php');
-require_once('lib/relativeTime.php');
+require_once('model/recoveryManager.php');
 
+require_once('lib/relativeTime.php');
+require_once('lib/rand.php');
 
 /* --------------------------------------------
 					POSTS
 ----------------------------------------------*/
 function listPosts()
 {
-	$postManager = new \projet8\postManager();
-	$posts = $postManager->listPosts();
+	$chapterManager = new \projet8\chapterManager();
+	$posts = $chapterManager->listPosts();
 
 	require('view/listPostsView.php');
 }
@@ -26,11 +28,11 @@ function listPosts()
 function post($id)
 {
 	
-	$postManager = new \projet8\postManager();
+	$chapterManager = new \projet8\chapterManager();
 	$commentsManager = new \projet8\commentsManager();
 	$time = new \projet8\time(); // relative time
 
-	$post = $postManager->onePost($id);
+	$post = $chapterManager->onePost($id);
 	if($post){ 
 		$comments = $commentsManager->commentsForOnePost($id);
 
@@ -260,4 +262,122 @@ function destroySession()
 	$_SESSION = array();
 	session_destroy();
 	listPosts();
+}
+
+
+
+
+/* --------------------------------------------
+				PASSWORD RECOVERY
+----------------------------------------------*/	
+
+
+
+function password($errors = null){
+	require('view/password.php');
+}
+function passwordRecovery($email){
+	//var_dump($email);
+//	$email = 'test@yahoo.fr';
+	if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+		$accountManager = new \projet8\accountManager();
+		$req = $accountManager->accountEmail($email);
+	
+		if (isset($req->email ) && $req->email == $email){
+			$rnd = new \projet8\rand();
+			$key = $rnd->randStr(8);
+
+			$recovery = new \projet8\recovery();
+			//$req = $recovery->newRecovery($email, $key);
+
+				if ($recovery->newRecovery($email, $key)){
+					require('var/mail.php');
+					mail($email , $objet, utf8_decode($mail) );
+					$successes[] = 'Un email de récupération de mot de passe vous a été envoyé.';
+				}else{
+					
+					$successes[] = 'Un email de récupération de mot de passe vous a déjà été envoyé il y a moins de 5 minutes.';
+				}
+			
+			require('view/password.php');
+			
+		}else{
+			$errors[] = "L'email n'est pas valide.";
+			require('view/password.php');
+		}
+		
+
+
+	}else{
+		$errors[] = "L'email n'est pas valide.";
+		require('view/password.php');
+	}
+
+}
+
+function recovery(){
+
+	require('view/recovery.php');
+}
+
+
+
+function newPassword($email, $key, $password, $confirmPassword){
+
+	
+		$recovery = new \projet8\recovery();
+		$req = $recovery->accountInfo($email);
+
+		if($req){
+
+			if ($req->email === $email ){
+				
+				if (!password_verify($key, $req->security_key)){
+					
+					$errors[] = "La clé n'est pas valide.";
+
+				}
+				
+			}else{
+				$errors[] = "L'email n'est pas valide.";
+			}
+
+
+		}else{
+			$errors[] = "Aucune demande de récupération de mot de passe n'a été effectué pour ce compte.";
+		}
+		
+
+
+
+
+
+	if ($password === $confirmPassword){
+		if (strlen($password) < 8){
+			$errors[] = "Le mot de passe doit contenir au moins 8 caractères.";
+
+		}
+						
+
+	}else{
+		$errors[] = "Les mots de passe doivent être identiques.";
+	}
+
+	if (empty($errors)){
+		$accountManager = new \projet8\accountManager();
+
+						$password = password_hash($password, PASSWORD_BCRYPT);
+						
+						$accountManager->modifyPassword($password, $email);
+						
+						$recovery->delRequest($email);
+						
+						$account = $accountManager->getAccountWithEmail($email);
+						
+						$accountManager->createSession($password, $account->accountName);
+						
+						listPosts();
+	}else{
+		require('view/recovery.php');	
+	}
 }

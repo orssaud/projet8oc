@@ -46,9 +46,9 @@ $classComment = "active";
 										echo("alert-danger");
 									}
 				?>">
-				<h4 class="black"> <?= $post->author ?></h4>
+				<h4 class="black"> <?= htmlspecialchars($post->author); ?></h4>
 				<em class="grey"> <?= $time->relativeTime($post->comment_date) ?></em>
-				<p class="dark-grey allCommentP"> <?= $post->comment ?></p>
+				<p class="dark-grey allCommentP"> <?= htmlspecialchars($post->comment); ?></p>
 				<form action="index.php?action=deleteComment&amp;id=<?= $post->id ?>&amp;p=<?= $p ?>" method="post">
 					<button type="submit" class="btn-right-trash btn btn-danger" title="Supprimer ce message"><i class="fas fa-trash-alt"></i></button>
 				</form>

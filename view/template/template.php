@@ -31,7 +31,12 @@
     <!--    Nav menu    -->
     <?php require('nav.php'); ?>
     <!--    ////////    -->
+
+
+
     <div class="<?= $bg ?>"></div>
+
+
     
     <?= $content ?>
     

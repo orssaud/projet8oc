@@ -7,7 +7,7 @@ class accountManager extends \projet8\dataBase
 	private function getLoginDate($account){
 
 		$post = $this->prepare('SELECT lastLogin FROM `account` WHERE accountName = ?', [$account], true);
-	
+		//var_dump($post);
 		return $post->lastLogin;
 	}
 
@@ -34,5 +34,31 @@ class accountManager extends \projet8\dataBase
 	    $_SESSION['lastLogin'] = $this->getLoginDate($account);
 	    $this->setLoginDate($account);	
 	    
+	}
+
+
+
+	public function  accountEmail($email){
+
+		$req = $this->prepare('SELECT email FROM account WHERE email = ?', [$email], true);
+
+		return $req;
+	}
+
+	public function modifyPassword($password, $email){
+		$this->prepare('	UPDATE account
+							SET passwordAccount = ?
+							WHERE email = ?', 
+							[$password ,  $email]);
+
+				
+
+	}
+
+	public function getAccountWithEmail($email){
+
+		$req = $this->prepare('SELECT accountName FROM account WHERE email = ?', [$email], true);
+
+		return $req;
 	}
 }

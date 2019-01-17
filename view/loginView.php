@@ -22,7 +22,12 @@ $classComment = "";
                 <button type="submit" class="btn btn-primary">Connection</button>
                 
             </form>
+            <br>
+            <p> <a href="./index.php?action=password"> Mot de passe oublier ?</a></p>
         </div>
+
+
+        
     </div></div>
     <?php $content = ob_get_clean(); ?>
     <?php require('view/template/template.php'); ?>

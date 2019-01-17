@@ -43,6 +43,38 @@ try{
 	            throw new Exception('Aucun identifiant de billet envoyé');
 	        }
 	    }
+	    else if ($_GET['action'] == 'password'){
+
+			password();
+
+		}else if ($_GET['action'] == 'sendPassword'){
+			
+			if (isset($_POST['email'])){
+				passwordRecovery($_POST['email']);
+			
+			}else{
+				$errors[] = "vous n'avez pas entrer d'email";
+				password($errors);
+
+
+			}
+
+		}else if ($_GET['action'] == 'recovery'){
+
+			recovery();
+			//$_POST['email'], $_POST['key']
+
+		}else if ($_GET['action'] == 'newPassword'){
+
+			if (isset($_POST['email']) && isset($_POST['key']) && isset($_POST['password']) && isset($_POST['confirmPassword'])){
+				newPassword($_POST['email'], $_POST['key'], $_POST['password'], $_POST['confirmPassword']);
+			}else{
+				recovery();
+			}
+			
+			//$_POST['password'], $_POST['confirmPassword']
+
+		}
 	    elseif ($_GET['action'] == 'login'){    
 		    if (isset($_POST['password']) && isset($_POST['account'])){ 
 
