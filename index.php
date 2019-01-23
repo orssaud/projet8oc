@@ -203,5 +203,5 @@ try{
 }
 catch(Exception $e){
 	
-	require('view/error.php');
+	require('view/errorView.php');
 }

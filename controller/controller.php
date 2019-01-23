@@ -1,10 +1,8 @@
 <?php
 
-//require('model/model.php');
 require_once('model/dataBase.php'); 
 require_once('model/chapterManager.php');
 require_once('model/commentsManager.php');
-//require_once('model/chapterManager.php');
 require_once('model/accountManager.php');
 require_once('model/recoveryManager.php');
 
@@ -14,7 +12,7 @@ require_once('lib/rand.php');
 /* --------------------------------------------
 					POSTS
 ----------------------------------------------*/
-function listPosts()
+function listPosts() //show all chapter "home page"
 {
 	$chapterManager = new \projet8\chapterManager();
 	$posts = $chapterManager->listPosts();
@@ -25,7 +23,7 @@ function listPosts()
 /* --------------------------------------------
 				ONLY ONE POST
 ----------------------------------------------*/
-function post($id)
+function post($id) // show on chapter (by id)
 {
 	
 	$chapterManager = new \projet8\chapterManager();
@@ -41,6 +39,7 @@ function post($id)
 		order by ID with children comments
 		*/
 	        $commentsById = [];
+
         foreach($comments as $comment){
             if($comment->reply === null){
                 $commentsById[$comment->id] = $comment;
@@ -64,7 +63,7 @@ function post($id)
 }
 
 /* --------------------------------------------
-					COMMENT
+					COMMENTS
 ----------------------------------------------*/
 
 function addComment($postId, $author, $comment, $byAuthor, $comId)
@@ -94,7 +93,7 @@ function report($postId, $commentId)
         header('Location: index.php?action=post&id=' . $postId);
     }
 }
-function getNewCommentsNumber()
+function getNewCommentsNumber()// count the number of new comment you have for add a notification when you login 
 {
 	
 	$commentsManager = new \projet8\commentsManager();
@@ -142,8 +141,18 @@ function getReportedComments()
 
 function deleteComment($id, $p)
 {
+
+	/*
+	$p is for nav menu in comment admin panel 
+	if p = 0 menu is focus on new comments
+	if p = 1  menu is focus on all comments
+	if p = 2 menu is focus on reported comments 
+	*/
+
 	$commentsManager = new \projet8\commentsManager();
 	$commentsManager->deleteComment($id);
+
+	// $p is use for go back at the good page after had delete a comment
 
 	if($p == 1){
 		getAllComments();
@@ -154,7 +163,7 @@ function deleteComment($id, $p)
 	}
 
 }
-function deleteCommentPost($id, $postId)
+function deleteCommentPost($id, $postId) //delete a comment directly on a chapter page
 {
 	$commentsManager = new \projet8\commentsManager();
 	$commentsManager->deleteComment($id);
@@ -162,7 +171,7 @@ function deleteCommentPost($id, $postId)
 post($postId);
 
 }
-function deleteComments($id) // chapter id
+function deleteComments($id) // When user delete a chapter this function delete all comments associate to the chapter ($id is the id of this chapter)
 {
 	$commentsManager = new \projet8\commentsManager();
 	$commentsManager->deleteComments($id);
@@ -192,14 +201,14 @@ function saveChapter($title, $chapter)
 
 function newChapter()
 {
-	require('view/newChapter.php');
+	require('view/newChapterView.php');
 }
 
 function editChapter(){
 
 	$chapterManager = new \projet8\chapterManager();
 	$post = $chapterManager->editChapter($_GET['id']);
-	require('view/editChapter.php');
+	require('view/editChapterView.php');
 }
 
 function saveEdit($title, $chapter, $id){
@@ -274,23 +283,21 @@ function destroySession()
 
 
 function password($errors = null){
-	require('view/password.php');
+	require('view/passwordView.php');
 }
 function passwordRecovery($email){
-	//var_dump($email);
-//	$email = 'test@yahoo.fr';
-	if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+
+	if (filter_var($email, FILTER_VALIDATE_EMAIL)){ // verify if this email have a email format 
 		$accountManager = new \projet8\accountManager();
 		$req = $accountManager->accountEmail($email);
 	
-		if (isset($req->email ) && $req->email == $email){
+		if (isset($req->email ) && $req->email == $email){ // verify if this email is in the database
 			$rnd = new \projet8\rand();
 			$key = $rnd->randStr(8);
 
 			$recovery = new \projet8\recovery();
-			//$req = $recovery->newRecovery($email, $key);
 
-				if ($recovery->newRecovery($email, $key)){
+				if ($recovery->newRecovery($email, $key)){ // create security key
 					require('var/mail.php');
 					mail($email , $objet, utf8_decode($mail) );
 					$successes[] = 'Un email de récupération de mot de passe vous a été envoyé.';
@@ -299,25 +306,25 @@ function passwordRecovery($email){
 					$successes[] = 'Un email de récupération de mot de passe vous a déjà été envoyé il y a moins de 5 minutes.';
 				}
 			
-			require('view/password.php');
+			require('view/passwordView.php');
 			
 		}else{
 			$errors[] = "L'email n'est pas valide.";
-			require('view/password.php');
+			require('view/passwordView.php');
 		}
 		
 
 
 	}else{
 		$errors[] = "L'email n'est pas valide.";
-		require('view/password.php');
+		require('view/passwordView.php');
 	}
 
 }
 
 function recovery(){
 
-	require('view/recovery.php');
+	require('view/recoveryView.php');
 }
 
 
@@ -337,7 +344,9 @@ function newPassword($email, $key, $password, $confirmPassword){
 					$errors[] = "La clé n'est pas valide.";
 
 				}
-				
+				if ($req->date + 86400 < time()){ // after 24h key is not valid any more
+					$errors[] = "La clé n'est plus valide, demander une nouvelle clé <a href='index.php?action=password'>ici</a>.";
+				}
 			}else{
 				$errors[] = "L'email n'est pas valide.";
 			}
@@ -347,9 +356,6 @@ function newPassword($email, $key, $password, $confirmPassword){
 			$errors[] = "Aucune demande de récupération de mot de passe n'a été effectué pour ce compte.";
 		}
 		
-
-
-
 
 
 	if ($password === $confirmPassword){
@@ -366,18 +372,19 @@ function newPassword($email, $key, $password, $confirmPassword){
 	if (empty($errors)){
 		$accountManager = new \projet8\accountManager();
 
-						$password = password_hash($password, PASSWORD_BCRYPT);
+		// hash password
+		$password = password_hash($password, PASSWORD_BCRYPT);
+		// modify password in database				
+		$accountManager->modifyPassword($password, $email);
+		// delete recovery request 				
+		$recovery->delRequest($email);
+		// find accound name with email				
+		$account = $accountManager->getAccountWithEmail($email);
+		// create session 				
+		$accountManager->createSession($password, $account->accountName);
 						
-						$accountManager->modifyPassword($password, $email);
-						
-						$recovery->delRequest($email);
-						
-						$account = $accountManager->getAccountWithEmail($email);
-						
-						$accountManager->createSession($password, $account->accountName);
-						
-						listPosts();
+		listPosts();
 	}else{
-		require('view/recovery.php');	
+		require('view/recoveryView.php');	
 	}
 }

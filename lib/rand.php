@@ -3,7 +3,7 @@ namespace projet8;
 
 class rand{
 
-	public function randStr($lenght){
+	public function randStr($lenght){// create random key
 		
 		$alphanumeric = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		$a_lenght = strlen($alphanumeric) -1 ;

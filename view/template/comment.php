@@ -16,7 +16,7 @@ foreach ($commentsById as $comment){
         echo('red');
         }
         ?>"><?= htmlspecialchars($comment->author); ?>&nbsp;&nbsp;&nbsp;</strong><span class="grey"><?= $time->relativeTime($comment->comment_date); ?></span></p>
-        <p><?= htmlspecialchars($comment->comment); ?></p>
+        <p><?= nl2br(htmlspecialchars($comment->comment)); ?></p>
         <?php
         if (isset($_SESSION['id']) && isset($_SESSION['account'])){ // logged
         // var_dump($post);
@@ -78,17 +78,13 @@ foreach ($commentsById as $comment){
 
     <?php
     
-    if(isset($comment->children)){
-    //var_dump(array_reverse ($comment->children));
-    //$memory = $commentsById;
-    $commentsById = array_reverse($comment->children);
-    ///foreach($comment->children as $commentsById){
-    //var_dump($commentsById);
-    require('comment.php');
-    // $commentsById = $memory;
-    // }
-    }
-    ?>
-    <?php
+        if(isset($comment->children)){
+
+        $commentsById = array_reverse($comment->children);
+
+        require('comment.php');
+     
+        }
+        
     }
     ?>
