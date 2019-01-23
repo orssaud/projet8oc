@@ -283,7 +283,7 @@ function destroySession()
 
 
 function password($errors = null){
-	require('view/passwordView.php');
+	require('view/passwordForgotView.php');
 }
 function passwordRecovery($email){
 
@@ -306,18 +306,18 @@ function passwordRecovery($email){
 					$successes[] = 'Un email de récupération de mot de passe vous a déjà été envoyé il y a moins de 5 minutes.';
 				}
 			
-			require('view/passwordView.php');
+			require('view/passwordForgotView.php');
 			
 		}else{
 			$errors[] = "L'email n'est pas valide.";
-			require('view/passwordView.php');
+			require('view/passwordForgotView.php');
 		}
 		
 
 
 	}else{
 		$errors[] = "L'email n'est pas valide.";
-		require('view/passwordView.php');
+		require('view/passwordForgotView.php');
 	}
 
 }
